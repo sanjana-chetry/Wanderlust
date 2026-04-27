@@ -1,16 +1,13 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listings.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate")
-const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError");
-const  { listingSchema, reviewSchema } = require("./schema.js");
-const Review = require("./models/review.js");
 
 const listings = require("./routes/listing.js");
+const reviews = require("./routes/review.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -35,40 +32,12 @@ app.get("/",(req,res)=>{
     res.send("working");
 });
 
-const validateReview = (req,res,next)=>{
-    let {error} = reviewSchema.validate(req.body);
-    if(error){
-        let errMssg = error.details.map((el)=> el.message).join(",");
-        throw new ExpressError(400,errMssg);
-    }else{
-        next();
-    }
-}
 
+//Listings
 app.use("/listings",listings);
 
 //REVIEWS
-//Post Review Route
-app.post("/listings/:id/reviews",validateReview,wrapAsync(async(req,res)=>{
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-
-    listing.reviews.push(newReview);
-
-    await newReview.save();
-    await listing.save();
-    res.redirect(`/listings/${listing._id}`);
-}));
-
-//Delete Review Route
-app.delete("/listings/:id/reviews/:reviewId",wrapAsync(async(req,res)=>{
-    let { id,reviewId } = req.params;
-
-    await Listing.findByIdAndUpdate(id,{$pull: {reviews: reviewId}})
-    await Review.findByIdAndDelete(reviewId);
-    
-    res.redirect(`/listings/${id}`)
-}))
+app.use("/listings/:id/reviews",reviews);
 
 app.use((req,res,next)=>{
     next(new ExpressError(404,"Page Not Found!!"));

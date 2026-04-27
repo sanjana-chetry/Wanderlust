@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listings.js");
-const wrapAsync = require("../utils/wrapAsync.js");
+const wrapAsync = require("../utils/wrapAsync.js"); 
 const ExpressError = require("../utils/ExpressError");
-const  { listingSchema, reviewSchema } = require("../schema.js");
+const  { listingSchema } = require("../schema.js");
 
 const validateListing = (req,res,next)=>{
     let {error} = listingSchema.validate(req.body);
@@ -16,6 +16,7 @@ const validateListing = (req,res,next)=>{
 }
 
 
+//Listings
 //INDEX ROUTE
 router.get("/",wrapAsync(async (req,res)=>{
     const allListings = await Listing.find({});
