@@ -41,18 +41,18 @@ const sessionOptions = {
     }
 }
 
-app.get("/",(req,res)=>{
-    res.send("working");
-});
-
 app.use(session(sessionOptions));
 app.use(flash());
 
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
     next();
 })
 
+app.get("/",(req,res)=>{
+    res.send("working");
+});
 
 //Listings
 app.use("/listings",listings);
