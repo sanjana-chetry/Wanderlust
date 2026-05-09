@@ -35,6 +35,16 @@ router.post("/login",
     async(req,res)=>{
         req.flash("success","Welcome back to Wanderlust!");
         res.redirect("/listings");
-    })
+});
+
+router.get("/logout",(req,res,next)=>{
+    req.logout((err)=>{
+        if(err){
+            next(err);
+        }
+        req.flash("success","you are logged out!");
+        res.redirect("/listings");
+    });
+});
 
 module.exports = router;
