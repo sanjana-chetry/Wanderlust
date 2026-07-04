@@ -27,14 +27,19 @@
             </div>
 
             <div class="mb-3">
-                Original Image <br>
-                <img src="<%= originalImageUrl %>">
+                <label class="form-label">Original Images</label>
+
+                <div class="org-images">
+                    <% originalImageUrl.forEach(img=>{ %>
+                        <img src="<%= img.previewImageUrl %>" class="edit-preview-img" alt="listing_image">
+                    <% }) %>
+                </div>
             </div>
     
             <div class="mb-3">
                 <label for="image" class="form-label">Upload New Image</label>
                 <input type="file" 
-                name="listing[image]" 
+                name="listing[image]" multiple
                 class="form-control"
                 >
             </div>

@@ -1,0 +1,56 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    .error-container{
+        min-height: calc(100vh - 5rem);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .error-card{
+        border: none;
+    }
+
+    /* .wishlist-part{
+        display: none;
+    } */
+
+    .error-icon{
+        font-size: 2.5rem;
+        color:#fe424d;
+    }
+</style>
+
+<% if(allWishlist.length > 0 && allWishlist[0].wishlists.length > 0){ %> 
+<div class="row mt-3 wishlist-part">
+    <% for(let wishlist of allWishlist){ %>
+        <% for(let item of wishlist.wishlists){ %>
+            <div class="col-auto mb-4">
+                <a href="/wishlist/<%= item._id %>" class="wishlist-link">
+                    <div class="card col wishlist-card">
+                        <img src="<%= item.listings[0].image[0].url %>" class="card-img-top" alt="wishlist image">
+                        <div class="card-body mt-2">
+                            <h6 class="card-text"><%= item.name %></h6>
+                        </div>
+                </div>
+            </a>
+        </div>
+        <% } %>
+    <% } %>
+</div>
+<% } else {%>
+
+<div class="container-sm error-container">
+    <div class="card text-center error-card">
+        <div class="card-body">
+            <h5 class="card-title mt-3"><i class="fa-solid fa-heart-circle-exclamation error-icon"></i></h5>
+            <h4 class="card-text">No items found</h4>
+            <p class="card-text">Your wishlist is empty. Start adding your favorite places!</p>
+            <a href="/listings" class="btn btn-dark mb-3">Explore Listings</a>
+        </div>
+    </div>
+</div>
+<% } %>
+
+

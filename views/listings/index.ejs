@@ -1,22 +1,188 @@
 <% layout("/layouts/boilerplate") %>
-    <h3>All Listings</h3>
-    <!-- <form action="/listings/new" method="GET">
-        <button>Create new Listing</button>
-    </form> -->
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+
+<style>
+    #filters{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .filter{
+        margin-top: 2rem;
+        margin-left: 2rem;
+        opacity: 0.7;
+        text-align: center;
+    }
+
+    .filter:hover{
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .filter p{
+        font-size: 0.8rem;
+    }
+
+    .tax-info{
+        display: none;
+    }
+
+    .tax-toggle{
+        border: 1px solid black;
+        border-radius: 1rem;
+        width: fit-content;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        margin-left: 3.5rem;
+    }
+
+    .form-check-label{
+        white-space: nowrap;
+    }
+
+
+</style>
+
+<div class="d-flex overflow-auto flex-nowrap"  id="filters">
+    <div class="filter">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Rooms</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-city"></i></div>
+        <p>Iconic cities</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-mountain"></i></div>
+        <p>Mountains</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-brands fa-fort-awesome"></i></div>
+        <p>Castle</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p>Amazing pool</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-campground"></i></div>
+        <p>Camping</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-wheat-awn"></i></div>
+        <p>Farm</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-regular fa-snowflake"></i></div>
+        <p>Arctic</p>
+    </div>
+
+    <div class="filter">
+        <div><i class="fa-solid fa-mug-hot"></i></div>
+        <p>Bed and Breakfast</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-ship"></i></div>
+        <p>Boats</p>
+    </div>
+
+    <div class="tax-toggle">
+        <div class="form-check-reverse form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+            <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-2 mt-3">
     <% for(let listing of allListings){ %>
     <a href="/listings/<%= listing._id %>" class="listing-link">
         <div class="card col listing-card" >
             <div class="card-img-overlay"></div>
-            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+            <img src="<%= listing.image[0].url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+            <i class="fa-solid fa-heart heart-icon" data-id="<%= listing._id %>"></i>
             <div class="card-body">
                 <p class="card-text">
                     <b><%= listing.title %> </b><br>
-                     &#x20B9; <%= listing.price.toLocaleString("en-IN") %> / night
+                     &#x20B9; <%= listing.price.toLocaleString("en-IN") %> / night 
+                     <i class="tax-info"> &nbsp; &nbsp; +18% GST</i>
                 </p>
             </div>
         </div>
         <% } %>
     </a>
 </div>
+
+
+<% const hasWishlist = userWishlist && userWishlist.wishlists.length > 0; %>
+
+<div class="modal fade" id="wishlistModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content wishlist-box">
+
+      <div class="modal-header justify-content-center position-relative">
+        <h5 class="modal-title">Create Wishlist</h5>
+        <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body wishlist-body">
+       <% if( hasWishlist){ %>
+            <div id="wishlistOptions">
+                <div class="wishlist-item">
+                    <div class="wishlist-circle create-new">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <p>Create New</p>
+                </div>
+                <% for(let wishlist of userWishlist.wishlists){ %>
+                    <div class="wishlist-item">
+                        <div class="wishlist-circle existing-wishlists"
+                            data-id="<%= wishlist._id %>">
+                            <img src="<%= wishlist.listings[0].image[0].url %>">
+                        </div>
+                        <span><%= wishlist.name %></span>
+                    </div>
+                <% } %>
+                <form id="existingWishlistForm" action="/wishlist/add" method="POST">
+                    <input type="hidden" name="wishlistId" id="wishlistId">
+                    <input type="hidden" name="listingId" id="existingListingId">
+                </form>
+            </div>
+        <% } %> 
+            <form 
+                method="post"
+                action="/wishlist"
+                novalidate 
+                class="needs-validation createWishlist-form"
+                style="<%= hasWishlist ? 'display: none;' : '' %>"  
+            >
+                <input type="text" placeholder="Name" class="form-control mb-3" name="name" >
+                <input type="hidden" name="listingId" id="listingId">
+                <button class="btn btn-sm btn-dark mb-3 mt-3 wishlist-btn" type="submit">Create</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    let taxSwitch = document.getElementById("switchCheckDefault");
+    taxSwitch.addEventListener("click",()=>{
+        let taxInfo = document.getElementsByClassName("tax-info");
+
+        for(info of taxInfo){
+            if(info.style.display != "inline"){
+                info.style.display = "inline";
+            }else{
+                info.style.display = "none";
+            }
+        }
+    });
+
+</script>
 

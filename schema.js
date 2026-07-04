@@ -17,3 +17,8 @@ module.exports.reviewSchema =  Joi.object({
         comment : Joi.string().required()
     }).required()
 });
+
+module.exports.wishlistSchema = Joi.object({
+    name : Joi.string().required(),
+    listingId : Joi.string().required()
+});

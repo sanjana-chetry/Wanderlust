@@ -1,10 +1,17 @@
 const Listing = require("../models/listings.js");
 const { geocoding, config } = require("@maptiler/client");
+const { cloudinary } = require("../cloudConfig.js");
 config.apiKey = process.env.MAP_API_KEY;
+const Wishlist = require("../models/wishlist.js");
 
 module.exports.index = async (req,res)=>{
     const allListings = await Listing.find({});
-    res.render("listings/index.ejs",{ allListings });
+
+    let userWishlist = null;
+    if(req.user){
+        userWishlist = await Wishlist.findOne({owner : req.user._id}).populate("wishlists.listings")
+    }
+    res.render("listings/index.ejs",{ allListings,userWishlist });
 }
 
 module.exports.renderNewForm = (req,res)=>{
@@ -36,17 +43,16 @@ module.exports.createListing = async(req,res,next)=>{
         }
     );
 
-    let url = req.file.path;
-    let filename = req.file.filename;
-
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
-    newListing.image = {url, filename};
+    newListing.image = req.files.map(file=>({
+        url: file.path,
+        filename: file.filename,
+    }));
 
     newListing.geometry = response.features[0].geometry;
 
     let savedListing = await newListing.save();
-    console.log(savedListing);
     req.flash("success","New Listing Created!");
     res.redirect("/listings");
 }
@@ -59,8 +65,13 @@ module.exports.renderEditForm = async(req,res) =>{
         return res.redirect("/listings");
     }
 
-    let originalImageUrl = listing.image.url;
-    originalImageUrl = originalImageUrl.replace("/upload","/upload/w_250")
+     const originalImageUrl = listing.image.map(img => ({
+        url: img.url,
+        previewImageUrl: img.url.replace(
+            "/upload",
+            "/upload/w_100,h_80"
+        )
+    }));
     res.render("listings/edit.ejs",{listing, originalImageUrl});
 }
 
@@ -69,9 +80,10 @@ module.exports.updateListing = async(req,res)=>{
     let listing = await Listing.findByIdAndUpdate(id,{...req.body.listing });
 
     if(typeof req.file !== "undefined"){
-        let url = req.file.path;
-        let filename = req.file.filename;
-        listing.image = { url, filename };
+        listing.image = req.files.map(file => ({
+            url : file.path,
+            filename : file.filename,
+        }));
         await listing.save();
     }
 
@@ -81,6 +93,11 @@ module.exports.updateListing = async(req,res)=>{
 
 module.exports.destroyListing = async(req,res)=>{
     let {id} = req.params;
+    let listing = await Listing.findById(id);
+
+    for(let img of listing.image){
+        await cloudinary.uploader.destroy(img.filename);
+    }
     await Listing.findByIdAndDelete(id);
     req.flash("success"," Listing Deleted!");
     res.redirect("/listings");
