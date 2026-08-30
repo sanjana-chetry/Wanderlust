@@ -4,6 +4,7 @@ const User = require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const { saveRedirectUrl } = require("../middleware.js");
+var jwt = require('jsonwebtoken');
 
 const userController = require("../controllers/users.js");
 
@@ -24,5 +25,16 @@ router
    userController.login);
 
 router.get("/logout",userController.logout);
+
+//google authentication
+router.get('/auth/google',
+  passport.authenticate('google', { scope: ["profile","email"] }));
+
+router.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    req.flash("success","Welcome to Wanderlust!");
+    res.redirect('/listings');
+  });
 
 module.exports = router;

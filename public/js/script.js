@@ -50,10 +50,12 @@ let create_btn = document.querySelector(".create-new");
 let existing_list = document.getElementById("wishlistOptions");
 let create_form = document.querySelector(".createWishlist-form");
 
-create_btn.addEventListener("click",()=>{
-  existing_list.style.display = "none";
-  create_form.style.display = "block"
-});
+if(create_btn){
+  create_btn.addEventListener("click",()=>{
+    existing_list.style.display = "none";
+    create_form.style.display = "block"
+  });
+}
 
 // existing wishlists
 
@@ -65,4 +67,24 @@ existingWishlist.forEach((wishlist)=>{
     document.getElementById("existingListingId").value = selectedListingId;
     document.getElementById("existingWishlistForm").submit();
   })
-})
+});
+
+// Password Toggle
+let togglePassword = document.getElementById("password-toggle");
+let password = document.getElementById("password");
+
+console.log(togglePassword);
+console.log(password);
+if(password && togglePassword){
+  togglePassword.addEventListener("click",()=>{
+    if(password.type === "password"){
+      password.type = "text";
+
+      togglePassword.classList.replace("fa-eye-slash", "fa-eye");
+    }else{
+      password.type = "password";
+
+      togglePassword.classList.replace("fa-eye", "fa-eye-slash");
+    }
+ });
+}
