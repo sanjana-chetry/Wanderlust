@@ -82,7 +82,7 @@ app.use((req,res,next)=>{
 
 app.get("/",(req,res)=>{
     res.redirect("/listings");
-}
+});
 
 //Listings
 app.use("/listings",listingsRouter);
