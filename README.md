@@ -201,8 +201,4 @@ http://localhost:8080
 
 ## Author
 
-Koushik Mahanta
-
-## License
-
-This project was developed for educational and portfolio purposes.
+Sanjana Chetry
