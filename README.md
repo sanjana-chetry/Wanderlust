@@ -192,7 +192,6 @@ http://localhost:8080
 
 * Interactive maps for listing locations
 * Advanced search and filtering
-* Wishlist functionality
 * Online payment integration
 * Email notifications
 * AI-powered travel recommendations
