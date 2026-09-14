@@ -1,28 +1,3 @@
-<style>
-  .search-btn{
-    background-color: #fe424d;
-    color: #fff;
-    border-radius: 1.2rem;
-    padding: 0 1rem 0 1rem;
-  }
-
-  .search-btn:hover{
-    background-color: #fe424d;
-    color: #fff;
-  }
-
-  .search-btn i{
-    display: inline;
-    margin-right: 0.5rem;
-  }
-
-  .search-inp{
-    border-radius: 1.2rem;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 0.95rem;
-  }
-</style>
-
 <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top ">
   <div class="container-fluid">
     <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
@@ -33,14 +8,95 @@
       <div class="navbar-nav">
         <a class="nav-link" href="/listings">Explore</a>
       </div>
-
       <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search">
-          <input class="form-control me-2 search-inp" type="search" placeholder="Search destinations"/>
-          <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
-        </form>
-      </div>
+        <div class="search-container">
+            <!-- Search bar -->
+          <div class="search-box" id="searchBox">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input 
+                type="text"
+                id="searchInput"
+                name="search"
+                placeholder="Search destinations"
+                autocomplete="off"
+                value="<%= typeof search !== 'undefined' ? search : '' %>"
+              >
+              <button type="button" id="searchButton" class="search-btn">
+                Search
+              </button>
+            </div>
+            <div class="selected-filters" id="selectedFilters"></div>
+            <!-- Search Panel -->
+            <div class="search-panel" id="searchPanel">
+              <h6>Filter by</h6>
+                <div class="search-options">
+                  <button type="button" class="search-option" id="priceOption">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                    <span>Price</span>
+                  </button>
+                  <button type="button" class="search-option" id="locationOption">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Location</span>
+                  </button>
+                </div>
+                <!-- Price Panel -->
+                <div class="price-panel" id="pricePanel">
+                  <div class="price-header">
+                    <button type="button" id="backFromPrice" class="back-btn">
+                      <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <h6>Price range</h6>
+                  </div>
+                  <div class="price-inputs">
+                    <div>
+                      <label>Minimum</label>
+                      <div class="price-input">
+                        <span>₹</span>
+                        <input type="number" id="minPriceInput" placeholder="Minimum">
+                      </div>
+                    </div>
+                    <div>
+                      <label>Maximum</label>
+                      <div class="price-input">
+                        <span>₹</span>
+                        <input type="number" id="maxPriceInput" placeholder="Maximum" >
+                      </div>
+                    </div>
 
+                  </div>
+                  <button type="button" id="applyPrice" class="apply-filter-btn">Apply</button>
+                </div>
+                <!-- Location Panel -->
+                <div class="location-panel" id="locationPanel">
+                  <div class="location-header">
+                    <button type="button" id="backFromLocation" class="back-btn">
+                      <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <h6>Location</h6>
+                  </div>
+                    <!-- Search locations -->
+                  <div class="location-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input
+                      type="text"
+                      id="locationInput"
+                      placeholder="Search locations..."
+                      autocomplete="off"
+                    >
+                    </div>
+                    <p class="location-label">
+                        Popular destinations
+                    </p>
+                    <!-- Suggestions -->
+                    <div
+                      id="locationSuggestions"
+                      class="location-suggestions">
+                    </div>
+                    <button type="button" id="applyLocation" class="apply-filter-btn">Apply</button>
+                </div>
+            </div>
+        </div>
+      </div>
       <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listings/new">Become a host</a>
 

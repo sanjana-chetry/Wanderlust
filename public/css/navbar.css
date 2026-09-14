@@ -1,0 +1,331 @@
+  .search-btn{
+    background-color: #fe424d;
+    color: #fff;
+    border-radius: 1.2rem;
+    padding: 0 1rem 0 1rem;
+  }
+
+  .search-btn:hover{
+    background-color: #fe424d;
+    color: #fff;
+  }
+
+  .search-btn i{
+    display: inline;
+    margin-right: 0.5rem;
+  }
+
+  .search-inp{
+    border-radius: 1.2rem;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    font-size: 0.95rem;
+  }
+
+  /* Search container */
+  .search-container {
+    position: relative;
+  }
+
+  /* Search box */
+  .search-box {
+    display: flex;
+    align-items: center;
+    width: 450px;
+    height: 48px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 2rem;
+    padding-left: 1rem;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .search-box:focus-within {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .search-icon {
+    margin-right: 0.7rem;
+    color: #555;
+  }
+
+  .search-box input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 0.95rem;
+    min-width: 0;
+  }
+
+  .search-box input::placeholder {
+    color: #777;
+  }
+
+/* Search button */
+  .search-box .search-btn {
+    border: none;
+    background-color: #fe424d;
+    color: white;
+    height: 40px;
+    padding: 0 1.2rem;
+    border-radius: 2rem;
+    margin-right: 4px;
+  }
+
+  .search-box .search-btn:hover {
+    background-color: #e63843;
+  }
+
+/* Search panel */
+  .search-panel {
+    position: absolute;
+    top: 58px;
+    left: 0;
+    width: 450px;
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 1000;
+  }
+
+  .search-panel h6 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+/* Price / Location buttons */
+  .search-options {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .search-option {
+    flex: 1;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 0.8rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .search-option:hover {
+    background: #f7f7f7;
+  }
+
+  /* Price panel */
+  .price-panel {
+    display: none;
+  }
+
+  .price-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .price-header h6 {
+    margin: 0;
+  }
+
+  .back-btn {
+    border: none;
+    background: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .price-inputs {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .price-inputs > div {
+    flex: 1;
+  }
+
+  .price-inputs label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+    color: #555;
+  }
+
+  .price-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 0.7rem;
+    padding: 0.7rem;
+  }
+
+  .price-input span {
+    margin-right: 0.4rem;
+  }
+
+  .price-input input {
+    width: 100%;
+    border: none;
+    outline: none;
+  }
+
+  .apply-filter-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 2rem;
+    background-color: #fe424d;
+    color: white;
+  }
+
+  /* Location panel */
+
+ .location-panel {
+    display: none;
+    background: #fff;
+}
+
+.location-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+}
+
+.location-header h6 {
+    margin: 0;
+}
+
+.back-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Search locations box */
+.location-search {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #ccc;
+    border-radius: 0.7rem;
+    padding: 0 1rem;
+    background: #fff;
+}
+
+.location-search i {
+    color: #555;
+}
+
+.location-search input {
+    border: none;
+    outline: none;
+    width: 100%;
+    background: #fff;
+    font-size: 0.95rem;
+}
+
+.location-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 1rem 0 0.5rem;
+    color: #555;
+}
+
+/* Suggestions */
+.location-suggestions {
+    max-height: 220px;
+    overflow-y: auto;
+    background: #fff;
+}
+
+.location-suggestion {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    background: #fff;
+}
+
+.location-suggestion:hover {
+    background-color: #f5f5f5;
+}
+
+.location-suggestion i {
+    color: #555;
+}
+
+.selected-filters {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: 450px;
+    margin-top: 10px;
+    padding: 0 4px;
+}
+
+.searching-label {
+    width: 100%;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 2px;
+}
+
+.filter-chips {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f1f1;
+    border-radius: 18px;
+    padding: 6px 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.filter-chip button {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    color: #555;
+}
+
+.filter-chip button:hover {
+    color: #fe424d;
+}
+
+.add-filter-btn {
+    border: none;
+    background: #e8f0fe;
+    color: #1769aa;
+    border-radius: 18px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.add-filter-btn:hover {
+    background: #dce8fb;
+}

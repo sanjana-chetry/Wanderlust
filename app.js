@@ -92,7 +92,11 @@ app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/",userRouter);
 
 //Wishlist
-app.use("/wishlist",wishlistRouter)
+app.use("/wishlist",wishlistRouter);
+
+app.get("/",(res,req)=>{
+    res.redirect("/listings");
+})
 
 app.use((req,res,next)=>{
     next(new ExpressError(404,"Page Not Found!!"));

@@ -5,13 +5,40 @@ config.apiKey = process.env.MAP_API_KEY;
 const Wishlist = require("../models/wishlist.js");
 
 module.exports.index = async (req,res)=>{
-    const allListings = await Listing.find({});
+    const {search, minPrice, maxPrice, location} = req.query;
+    let filter = {};
+
+    if(search){
+        filter.$text = {
+            $search: search
+        };
+    }
+
+    if(minPrice || maxPrice){
+        filter.price = {};
+        
+        if(minPrice) {
+            filter.price.$gte = Number(minPrice);
+        }
+
+        if(maxPrice) {
+            filter.price.$lte = Number(maxPrice);
+        }
+    }
+
+    if(location){
+        filter.location = location;
+    }
+
+    console.log("FILTER:", filter);
+
+    const allListings = await Listing.find(filter);
 
     let userWishlist = null;
     if(req.user){
         userWishlist = await Wishlist.findOne({owner : req.user._id}).populate("wishlists.listings")
     }
-    res.render("listings/index.ejs",{ allListings,userWishlist });
+    res.render("listings/index.ejs",{ allListings,userWishlist, search, minPrice, maxPrice, location});
 }
 
 module.exports.renderNewForm = (req,res)=>{
@@ -102,3 +129,21 @@ module.exports.destroyListing = async(req,res)=>{
     req.flash("success"," Listing Deleted!");
     res.redirect("/listings");
 }
+
+module.exports.locationSuggestions = async (req, res) => {
+    const { location } = req.query;
+
+    if (!location) {
+        const locations = await Listing.distinct("location");
+        return res.json(locations.slice(0, 5));
+    }
+
+    const locations = await Listing.distinct("location", {
+        location: {
+            $regex: location,
+            $options: "i"
+        }
+    });
+
+    res.json(locations.slice(0, 5));
+};
