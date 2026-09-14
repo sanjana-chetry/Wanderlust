@@ -1,29 +1,22 @@
 # Wanderlust
 
-A full-stack travel and accommodation platform that allows users to discover, create, manage, and review property listings.
-
-## Overview
-
-Wanderlust is a full-stack web application inspired by modern travel and accommodation platforms. The application allows users to explore accommodation listings, view detailed property information, create and manage their own listings, and share reviews.
-
-The project focuses on implementing real-world backend concepts including authentication, authorization, RESTful routing, database relationships, CRUD operations, validation, and cloud-based image storage.
+A full-stack travel and accommodation platform inspired by modern vacation rental applications. Users can explore listings, search destinations, apply filters, view property locations on interactive maps, create and manage listings, and leave reviews.
 
 ## Features
 
-* User registration, login, and logout
-* Authentication and authorization
-* Create accommodation listings
-* Browse available listings
-* View detailed listing information
-* Edit and update listings
-* Delete listings
+* User registration and login
+* Google Authentication
+* Session-based authentication and authorization
+* Create, edit, and delete accommodation listings
+* Search listings by destination
+* Filter listings by price and location
+* Browse listings by categories and popular destinations
+* Interactive maps using MapTiler
 * Add and manage reviews
-* Image upload and cloud storage
-* Protected routes
-* Authorization middleware
-* Form validation
+* Image upload and cloud storage using Cloudinary
+* Protected routes and authorization middleware
+* Form validation and error handling
 * Responsive user interface
-* Error handling and custom middleware
 
 ## Tech Stack
 
@@ -45,159 +38,88 @@ The project focuses on implementing real-world backend concepts including authen
 * MongoDB
 * Mongoose
 
-### Authentication and Services
+### Authentication & Services
 
 * Passport.js
+* Google OAuth
 * Express Session
 * Connect-Mongo
 * Cloudinary
+* MapTiler
 * Joi
 
 ## Architecture
 
-The application follows the Model-View-Controller (MVC) architecture.
-
-```text
-Wanderlust
-│
-├── controllers/
-├── models/
-├── routes/
-├── views/
-├── public/
-├── utils/
-├── middleware/
-├── init/
-├── app.js
-└── package.json
-```
-
-### Application Flow
+The application follows the **MVC (Model-View-Controller)** architecture.
 
 ```text
 User
-  │
-  ▼
-Frontend / EJS
-  │
-  ▼
+  ↓
+EJS / Frontend
+  ↓
 Express Routes
-  │
-  ▼
+  ↓
 Middleware
-  │
-  ▼
+  ↓
 Controllers
-  │
-  ▼
+  ↓
 Mongoose
-  │
-  ▼
+  ↓
 MongoDB
 ```
 
-## Authentication and Authorization
+## Search & Filtering
 
-Wanderlust uses session-based authentication to manage authenticated users.
+Wanderlust provides a listing discovery system that allows users to:
 
-Users can register and log in before accessing protected functionality.
-
-Authorization middleware ensures that users can only modify or delete resources that they own.
-
-## Database
-
-MongoDB is used as the primary database, with Mongoose providing schema definition and database interaction.
-
-### User
-
-Stores information about registered users.
-
-### Listing
-
-Stores accommodation information such as:
-
-* Title
-* Description
-* Price
-* Location
-* Country
-* Image
-* Owner
-
-### Review
-
-Stores reviews associated with listings and users.
-
-## Image Storage
-
-Listing images are uploaded to Cloudinary rather than being stored directly on the application server.
-
-The resulting image URL and metadata are stored in MongoDB and retrieved when the listing is displayed.
+* Search for destinations
+* Filter by minimum and maximum price
+* Filter by location
+* Browse listings by category
+* Combine search and filters to find suitable accommodations
 
 ## Installation
 
-### 1. Clone the repository
-
 ```bash
 git clone <YOUR_GITHUB_REPOSITORY_URL>
-```
-
-### 2. Navigate to the project directory
-
-```bash
 cd Wanderlust
-```
-
-### 3. Install dependencies
-
-```bash
 npm install
-```
-
-### 4. Start the application
-
-```bash
 node app.js
 ```
 
-For development with Nodemon:
-
-```bash
-nodemon app.js
-```
-
-The application will run locally at:
+The application runs locally at:
 
 ```text
 http://localhost:8080
 ```
 
-## Key Concepts Implemented
+## Key Concepts
 
-* MVC architecture
-* RESTful routing
-* CRUD operations
-* MongoDB data modeling
-* Mongoose relationships
-* Authentication
-* Authorization
-* Session management
-* Express middleware
-* Form validation
-* Error handling
-* Cloud-based image storage
-* Git and GitHub workflow
+* MVC Architecture
+* RESTful Routing
+* CRUD Operations
+* MongoDB & Mongoose
+* Google OAuth Authentication
+* Authorization & Session Management
+* Express Middleware
+* Search & Filtering
+* Form Validation
+* Cloudinary Image Storage
+* MapTiler Interactive Maps
+* Git & GitHub
 
 ## Future Improvements
 
-* Interactive maps for listing locations
-* Advanced search and filtering
 * Online payment integration
 * Email notifications
 * AI-powered travel recommendations
 * Listing and user analytics
-* Improved caching and application performance
+* Performance and caching improvements
+
+## Live Demo
+
+[Wanderlust](https://wanderlust-6v3v.onrender.com/listings)
 
 ## Author
 
-Sanjana Chetry
+**Sanjana Chetry**
